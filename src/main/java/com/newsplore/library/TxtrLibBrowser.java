@@ -11,7 +11,8 @@ import com.newsplore.tree.Node;
 
 public class TxtrLibBrowser {
 
-	public static final String CATALOG_SERVICE = "http://txtr.com/WSContentCategoryMgmtService/WSContentCategoryMgmt";
+	private static final String USER_NATURE = "txtr.de";
+  public static final String CATALOG_SERVICE = "http://txtr.com/WSContentCategoryMgmtService/WSContentCategoryMgmt";
 	IWSContentCategoryMgmt categoryManager;
 	
 	public  TxtrLibBrowser() {
@@ -22,7 +23,7 @@ public class TxtrLibBrowser {
 	}
 
 	public Node getAllCategories() throws WSException {
-		ArrayList<WSTContentCategory> cats = categoryManager.getCatalogContentCategoryRootsForUser("txtr.de", -1, 70000);
+		ArrayList<WSTContentCategory> cats = categoryManager.getCatalogContentCategoryRootsForUser(USER_NATURE, -1, 70000);
 		WSTContentCategory rootCat = new WSTContentCategory();
 		rootCat.setName("root");
 	  Node root = new Node(rootCat, null);
@@ -35,7 +36,7 @@ public class TxtrLibBrowser {
 		  Node newNode = new Node(cat, node);
       node.addChild(newNode);
 			for(String catId : cat.getChildrenIDs()) {
-				ArrayList<WSTContentCategory> subCats = categoryManager.getChildren("txtr.de", catId, 100, 0, 1000);
+				ArrayList<WSTContentCategory> subCats = categoryManager.getChildren(USER_NATURE, catId, 100, 0, 1000);
 				if(subCats != null) {
 					digestCategory(subCats, newNode);
 				}
